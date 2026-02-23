@@ -3,7 +3,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.hashers import check_password
-from .models import Account
+from .models import Account, DeviceType, AlertType, WarningType
+from rest_framework import viewsets
+from .serializers import DeviceTypeSerializer, AlertTypeSerializer, WarningTypeSerializer
+
 
 
 class LoginView(APIView):
@@ -35,3 +38,22 @@ class LoginView(APIView):
                 "role": user.role
             }
         }, status=status.HTTP_200_OK)
+
+
+# /api/device-types/	GET
+# /api/device-types/	POST
+# /api/device-types/<id>/	GET
+# /api/device-types/<id>/	PUT
+# /api/device-types/<id>/	PATCH
+# /api/device-types/<id>/	DELETE
+class DeviceTypeViewSet(viewsets.ModelViewSet):
+    queryset = DeviceType.objects.all()
+    serializer_class = DeviceTypeSerializer
+
+class AlertTypeViewSet(viewsets.ModelViewSet):
+    queryset = AlertType.objects.all()
+    serializer_class = AlertTypeSerializer
+
+class WarningTypeViewSet(viewsets.ModelViewSet):
+    queryset = WarningType.objects.all()
+    serializer_class = WarningTypeSerializer
